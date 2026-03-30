@@ -1,5 +1,7 @@
 package aluisio.batalhanaval.entities;
 
-public abstract class Entity {	
-	public abstract void shoot();
+import aluisio.batalhanaval.logic.Grid;
+
+public abstract class Entity {
+	private Grid grid;
 }
