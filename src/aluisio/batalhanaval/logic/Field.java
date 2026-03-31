@@ -10,8 +10,8 @@ public class Field {
 		this.fieldHit = false;
 	}
 
-	// se nao tiver navio vai retornar null
 	public Ship isShip() {
+		// se nao tiver navio vai retornar null
 		return shipPresent;
 	}
 
