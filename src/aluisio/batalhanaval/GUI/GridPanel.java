@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
+
+import aluisio.batalhanaval.entities.Ship;
 import aluisio.batalhanaval.logic.Field;
 import aluisio.batalhanaval.logic.Game;
 import aluisio.batalhanaval.logic.Grid;
@@ -17,11 +19,13 @@ public class GridPanel extends JPanel {
 	private Game game;
 	private int hoverColuna = -1;
 	private int hoverLinha = -1;
+	private boolean myGrid;
 	
-	public GridPanel(Grid grid, Game game) {
+	public GridPanel(Grid grid, Game game, boolean myGrid) {
 		this.grid = grid;	
 		this.gridSize = 7;
 		this.game = game;
+		this.myGrid = myGrid;
 		
 		addMouseListener(new MouseAdapter() {
 	        @Override
@@ -53,12 +57,17 @@ public class GridPanel extends JPanel {
 		int col = (x - offsetX) / tamQuadrado;
 		int lin = (y - offsetY) / tamQuadrado;
 
-		if (col >= 0 && col < gridSize && lin >= 0 && lin < gridSize) {	
+		if (col >= 0 && col < gridSize && lin >= 0 && lin < gridSize) {
 			if (game.getState() == Game.GAMESTATE.SHIP_PLACEMENT) {
-				System.out.println("Posicionando barco em: " + col + "," + lin);
+				if(game.getPlayer().getGrid().getField(col, lin).isShip() == null) {
+					System.out.println("Posicionando barco em: " + col + "," + lin);
+					game.getPlayer().getGrid().getField(col, lin).setShip(new Ship());
+				}
 			} 
 			else if (game.getState() == Game.GAMESTATE.PLAYER_ATTACK) {
 				System.out.println("Atirando em: " + col + "," + lin);
+				game.getPlayer().shoot(col, lin, game.getEnemy().getGrid());
+				
 			}
 			repaint();
 		}
@@ -84,14 +93,6 @@ public class GridPanel extends JPanel {
 	    }
 	}
 
-	public Grid getGrid() {
-		return grid;
-	}
-
-	public void setGrid(Grid grid) {
-		this.grid = grid;
-	}
-
 	public int getGridSize() {
 		return gridSize;
 	}
@@ -115,7 +116,11 @@ public class GridPanel extends JPanel {
 	            
 	            if (f != null && f.isFieldHit()) {
 	                g.setColor(Color.RED);
-	            } else {
+	            } 
+	            else if(f.isShip() != null && this.myGrid == true) {
+	            	g.setColor(Color.CYAN);
+	            }
+	            else {
 	                g.setColor(new Color(30, 144, 255));
 	            }
 

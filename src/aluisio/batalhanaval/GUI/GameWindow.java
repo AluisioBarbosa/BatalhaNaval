@@ -29,8 +29,10 @@ public class GameWindow extends JFrame {
 	    JPanel containerGrids = new JPanel();
 	    containerGrids.setLayout(new GridLayout(1, 2, 10, 2));
 	    
-	    this.painelEsquerdo = new GridPanel(playerGrid, game);
-	    this.painelDireito = new GridPanel(enemyGrid, game);
+	    this.painelEsquerdo = new GridPanel(playerGrid, game, true);
+	    game.getPlayer().setGrid(playerGrid);
+	    this.painelDireito = new GridPanel(enemyGrid, game, false);
+	    game.getEnemy().setGrid(enemyGrid);
 	    
 	    containerGrids.add(painelEsquerdo);
 	    containerGrids.add(painelDireito);

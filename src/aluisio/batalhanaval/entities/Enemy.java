@@ -8,7 +8,7 @@ public class Enemy extends Entity {
 		super();
 	}
 	
-	public void shoot(Grid grid, int gridSize){
+	public boolean shoot(Grid grid, int gridSize){
 		Random random = new Random();
 		boolean tiroAleatorio = false;
 		do{
@@ -16,5 +16,6 @@ public class Enemy extends Entity {
 			int tiroAleatorioY = random.nextInt(gridSize);
 			tiroAleatorio = grid.updateGrid(grid.getField(tiroAleatorioX, tiroAleatorioY));
 		}while(tiroAleatorio != true);
+		return true;
 	}
 }

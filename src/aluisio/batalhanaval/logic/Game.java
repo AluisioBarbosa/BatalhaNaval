@@ -21,7 +21,6 @@ public class Game {
 	
 	public Game() {
 		this.turn = false;
-
 		this.player = new Player();
 		this.enemy = new Enemy();
 		this.state = GAMESTATE.SHIP_PLACEMENT;
@@ -61,8 +60,21 @@ public class Game {
 	public GAMESTATE getState() {
 		return this.state;
 	}
-	
-	
-	
-	
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public Enemy getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(Enemy enemy) {
+		this.enemy = enemy;
+	}
+
 }
