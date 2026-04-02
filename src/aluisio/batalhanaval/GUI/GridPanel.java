@@ -59,15 +59,16 @@ public class GridPanel extends JPanel {
 
 		if (col >= 0 && col < gridSize && lin >= 0 && lin < gridSize) {
 			if (game.getState() == Game.GAMESTATE.SHIP_PLACEMENT) {
-				if(game.getPlayer().getGrid().getField(col, lin).isShip() == null) {
+				if(game.getPlayer().getGrid().getField(col, lin).isShip() == null && this.myGrid == true) {
 					System.out.println("Posicionando barco em: " + col + "," + lin);
 					game.getPlayer().getGrid().getField(col, lin).setShip(new Ship());
 				}
 			} 
 			else if (game.getState() == Game.GAMESTATE.PLAYER_ATTACK) {
-				System.out.println("Atirando em: " + col + "," + lin);
-				game.getPlayer().shoot(col, lin, game.getEnemy().getGrid());
-				
+				if(this.myGrid == false) {
+					System.out.println("Atirando em: " + col + "," + lin);
+					game.getPlayer().shoot(col, lin, game.getEnemy().getGrid());
+				}
 			}
 			repaint();
 		}
