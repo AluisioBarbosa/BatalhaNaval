@@ -2,6 +2,8 @@ package aluisio.batalhanaval.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,8 +16,9 @@ import aluisio.batalhanaval.logic.Grid;
 
 @SuppressWarnings("serial")
 public class GameWindow extends JFrame {
-	private GridPanel painelEsquerdo;
-	private GridPanel painelDireito;
+	private GridPanel painelPlayer;
+	private GridPanel painelEnemy;
+	private JLabel lblPlacar;
 	
 	
 	public GameWindow(int height, int width, Grid playerGrid, Grid enemyGrid, Game game) {
@@ -29,41 +32,50 @@ public class GameWindow extends JFrame {
 	    JPanel containerGrids = new JPanel();
 	    containerGrids.setLayout(new GridLayout(1, 2, 10, 2));
 	    
-	    this.painelEsquerdo = new GridPanel(playerGrid, game, true);
+	    this.painelPlayer = new GridPanel(playerGrid, game, true);
 	    game.getPlayer().setGrid(playerGrid);
-	    this.painelDireito = new GridPanel(enemyGrid, game, false);
+	    this.painelEnemy = new GridPanel(enemyGrid, game, false);
 	    game.getEnemy().setGrid(enemyGrid);
 	    
-	    containerGrids.add(painelEsquerdo);
-	    containerGrids.add(painelDireito);
+	    containerGrids.add(painelPlayer);
+	    containerGrids.add(painelEnemy);
 	    add(containerGrids, BorderLayout.CENTER);
 
-	    JLabel lblPlacar = new JLabel("Player 0 x 0 Inimigo", SwingConstants.CENTER);
+	    lblPlacar = new JLabel("Player 0 x 0 Inimigo", SwingConstants.CENTER);
 	    lblPlacar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
 	    add(lblPlacar, BorderLayout.NORTH);
 
 	    JPanel painelInferior = new JPanel();
 	    painelInferior.add(new JButton("Reiniciar Jogo"));
-	    painelInferior.add(new JLabel("Sua vez de atirar!"));
 	    add(painelInferior, BorderLayout.SOUTH);
-	}
-	public GridPanel getPainelEsquerdo() {
-		return painelEsquerdo;
-	}
-
-	public void setPainelEsquerdo(GridPanel painelEsquerdo) {
-		this.painelEsquerdo = painelEsquerdo;
-	}
-
-	public GridPanel getPainelDireito() {
-		return painelDireito;
-	}
-
-	public void setPainelDireito(GridPanel painelDireito) {
-		this.painelDireito = painelDireito;
+	    
+	    this.addKeyListener(new KeyAdapter() {
+	        public void keyPressed(KeyEvent e) {
+	            if (e.getKeyCode() == KeyEvent.VK_Z) {
+	                game.changeOrientation();
+	            }
+	            else if (e.getKeyCode() == KeyEvent.VK_X) {
+	                game.getCheats().changeWallHack();
+	            }
+	            else if (e.getKeyCode() == KeyEvent.VK_C) {
+	                game.getCheats().changeInfiniteShots();
+	            }
+	        }
+	        
+	    });
+	    this.setFocusable(true);
+	    
 	}
 
 	public void display() {
 		setVisible(true);
+	}
+	
+	public void updateWindowGrids(Grid newPlayerGrid, Grid newEnemyGrid) {
+		this.painelPlayer.setGrid(newPlayerGrid);
+		this.painelEnemy.setGrid(newEnemyGrid);
+		this.requestFocusInWindow();
+		this.revalidate();
+	    this.repaint();
 	}
 }
