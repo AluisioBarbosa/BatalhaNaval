@@ -4,8 +4,8 @@ import java.util.Random;
 import aluisio.batalhanaval.logic.Grid;
 
 public class Enemy extends Entity {
-	public Enemy() {
-		super();
+	public Enemy(int gridSize) {
+		super(gridSize);
 	}
 	
 	public boolean shoot(Grid gridPlayer){

@@ -8,8 +8,8 @@ public class Grid {
 	private int size;
 	private int shipsDestroyed;
 	
-	public Grid() {
-		this.size = 7;
+	public Grid(int size) {
+		this.size = size;
 		this.grid = new Field[size][size];
 		this.shipsDestroyed = 0;
 		for (int i = 0; i < size; i++) {

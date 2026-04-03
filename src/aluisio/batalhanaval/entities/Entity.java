@@ -7,8 +7,8 @@ public class Entity {
 	private Grid grid;
 	private int totalShips;
 	
-	public Entity() {
-		this.grid = new Grid();
+	public Entity(int gridSize) {
+		this.grid = new Grid(gridSize);
 		this.totalShips = 0;
 	}
 

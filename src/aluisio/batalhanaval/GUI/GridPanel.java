@@ -22,9 +22,9 @@ public class GridPanel extends JPanel {
 	private int hoverLinha = -1;
 	private boolean isMyGrid;
 	
-	public GridPanel(Grid grid, Game game, boolean myGrid) {
+	public GridPanel(Grid grid, Game game, boolean myGrid, int gridSize) {
 		this.grid = grid;	
-		this.gridSize = 7;
+		this.gridSize = gridSize;
 		this.game = game;
 		this.isMyGrid = myGrid;
 		
@@ -81,6 +81,7 @@ public class GridPanel extends JPanel {
 				System.out.println("Error");
 				break;
 		}
+		repaint();
 	}
 	
 	private void atualizarHover(int x, int y) {

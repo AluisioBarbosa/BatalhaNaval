@@ -11,6 +11,7 @@ public class Game implements Runnable {
 	private GAMESTATE state;
 	private ORIENTATION orientation;
 	private Cheats cheats;
+	private int gridSize;
 	
 	public enum GAMESTATE{
 		SHIP_PLACEMENT,
@@ -24,9 +25,10 @@ public class Game implements Runnable {
 		VERTICAL
 	}
 	
-	public Game() {
-		this.player = new Player();
-		this.enemy = new Enemy();
+	public Game(int gridSize) {
+		this.player = new Player(gridSize);
+		this.gridSize = gridSize;
+		this.enemy = new Enemy(gridSize);
 		this.cheats = new Cheats();
 		this.state = GAMESTATE.SHIP_PLACEMENT;
 		this.orientation = ORIENTATION.HORIZONTAL;
@@ -34,7 +36,7 @@ public class Game implements Runnable {
 	
 	public void start() {
 		setupEnemyShips();
-		this.janela = new GameWindow(600, 1024, player.getGrid(), enemy.getGrid(), this);
+		this.janela = new GameWindow(600, 1024, player.getGrid(), enemy.getGrid(), this, this.gridSize);
 		this.janela.display();
 		Thread gameThread = new Thread(this);
 		gameThread.start();
@@ -43,6 +45,11 @@ public class Game implements Runnable {
 	public void run() {
 		while(this.state != GAMESTATE.ENDED) {
 			
+			if (janela != null) {
+	            int playerPontos = enemy.getGrid().getShipsDestroyed();
+	            int inimigoPontos = player.getGrid().getShipsDestroyed();
+	            janela.atualizarTextoPlacar(playerPontos, inimigoPontos);
+	        }
 			
 			if (enemy.getGrid().getShipsDestroyed() >= 5) {
 	            System.out.println("VITÓRIA DO JOGADOR!");
@@ -75,8 +82,8 @@ public class Game implements Runnable {
 	
 	public void restartGame() {
 		this.state = GAMESTATE.SHIP_PLACEMENT;
-		this.player = new Player();
-		this.enemy = new Enemy();
+		this.player = new Player(this.gridSize);
+		this.enemy = new Enemy(this.gridSize);
 		this.orientation = ORIENTATION.HORIZONTAL;
 		
 		setupEnemyShips();
