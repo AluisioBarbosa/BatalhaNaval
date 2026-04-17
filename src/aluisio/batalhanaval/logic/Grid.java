@@ -1,5 +1,7 @@
 package aluisio.batalhanaval.logic;
 
+import java.awt.Point;
+
 import aluisio.batalhanaval.entities.Ship;
 import aluisio.batalhanaval.logic.Game.ORIENTATION;
 
@@ -131,7 +133,13 @@ public class Grid {
 		this.shipsDestroyed = shipsDestroyed;
 	}
 	
-	
+	public boolean checkValidPosition(Point coord) {
+		Field field = this.getField(coord.x, coord.y);
+		if(field == null || field.isFieldHit() == true) {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	
