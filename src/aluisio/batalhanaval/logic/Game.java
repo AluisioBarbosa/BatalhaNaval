@@ -52,10 +52,12 @@ public class Game implements Runnable {
 	        }
 			
 			if (enemy.getGrid().getShipsDestroyed() >= 5) {
+				this.state = GAMESTATE.ENDED;
 	            System.out.println("VITÓRIA DO JOGADOR!");
 	            this.showGameOverPopup("VOCE GANHOU");
 	        } 
 	        else if (player.getGrid().getShipsDestroyed() >= 5) {
+	        	this.state = GAMESTATE.ENDED;
 	            System.out.println("VITÓRIA DO INIMIGO!");
 	            this.showGameOverPopup("VOCE PERDEU");
 	        }
@@ -64,9 +66,11 @@ public class Game implements Runnable {
 			if (this.state == GAMESTATE.ENEMY_ATTACK) {
 				try {
 					Thread.sleep(1000); 
-					enemy.shoot(player.getGrid());
-					this.state = GAMESTATE.PLAYER_ATTACK;
+					boolean enemyShoot = enemy.shoot(player.getGrid());
 					
+					if(enemyShoot == false) {
+						changeTurn();
+					}
 					if (janela != null) {
 						janela.repaint();
 					}
@@ -115,7 +119,8 @@ public class Game implements Runnable {
 	            if (finalCol > currentGridSize - shipSize) {
 	                finalCol = currentGridSize - shipSize;
 	            }
-	        } else {
+	        } 
+	        else {
 	            if (finalLin > currentGridSize - shipSize) {
 	                finalLin = currentGridSize - shipSize;
 	            }
@@ -131,13 +136,14 @@ public class Game implements Runnable {
 			if(target != null) {
 				if(target.isFieldHit() == false) {
 					player.shoot(col, lin, enemy.getGrid());
-					if(cheats.isInfiniteShots() == false) {
-						changeTurn();
-					}
 				}
 				else {
 					System.out.println("Voce ja atirou nesse campo");
 				}
+				if(cheats.isInfiniteShots() == false && enemy.getGrid().hasShipAt(col, lin) == false) {
+					changeTurn();
+				}
+				
 			}
 		}
 	}
@@ -211,7 +217,8 @@ public class Game implements Runnable {
 	        
 	        if (randValue > 0.5) {
 	        	orientation = ORIENTATION.HORIZONTAL;
-	        } else {
+	        } 
+	        else {
 	        	orientation = ORIENTATION.VERTICAL;
 	        }
 

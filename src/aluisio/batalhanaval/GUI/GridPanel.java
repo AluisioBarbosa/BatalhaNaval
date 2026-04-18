@@ -70,16 +70,11 @@ public class GridPanel extends JPanel {
 		
 		int col = p.x;
 		int lin = p.y;
-		switch (game.getState()) {
-			case SHIP_PLACEMENT:
-				game.processClick(col, lin, isMyGrid);
-				break;
-			case PLAYER_ATTACK:
-				game.processClick(col, lin, isMyGrid);
-				break;
-			default:
-				System.out.println("Error");
-				break;
+		try {
+			game.processClick(col, lin, isMyGrid);
+		}
+		catch(Exception e){
+			System.out.println("Erro");
 		}
 		repaint();
 	}
