@@ -12,6 +12,7 @@ public class Game implements Runnable {
 	private ORIENTATION orientation;
 	private Cheats cheats;
 	private int gridSize;
+	private DIFICULTY dificulty;
 	
 	public enum GAMESTATE{
 		SHIP_PLACEMENT,
@@ -25,10 +26,11 @@ public class Game implements Runnable {
 		VERTICAL
 	}
 	
-	public Game(int gridSize) {
+	public Game(int gridSize, DIFICULTY dificulty) {
 		this.player = new Player(gridSize);
 		this.gridSize = gridSize;
-		this.enemy = new Enemy(gridSize);
+		this.dificulty = dificulty;
+		this.enemy = new Enemy(gridSize, dificulty);
 		this.cheats = new Cheats();
 		this.state = GAMESTATE.SHIP_PLACEMENT;
 		this.orientation = ORIENTATION.HORIZONTAL;
@@ -87,7 +89,7 @@ public class Game implements Runnable {
 	public void restartGame() {
 		this.state = GAMESTATE.SHIP_PLACEMENT;
 		this.player = new Player(this.gridSize);
-		this.enemy = new Enemy(this.gridSize);
+		this.enemy = new Enemy(this.gridSize, this.dificulty);
 		this.orientation = ORIENTATION.HORIZONTAL;
 		
 		setupEnemyShips();

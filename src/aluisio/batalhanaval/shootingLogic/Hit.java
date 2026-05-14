@@ -1,4 +1,4 @@
-package aluisio.batalhanaval.logic;
+package aluisio.batalhanaval.shootingLogic;
 
 import java.awt.Point;
 import java.util.ArrayList;
